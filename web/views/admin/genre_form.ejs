@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Panel de Administración</h1>
+      <nav>
+        <ul>
+          <li><a href="/admin">Dashboard</a></li>
+          <li><a href="/authors">Autores</a></li>
+          <li><a href="/genres">Géneros</a></li>
+          <li><a href="/publishers">Editoriales</a></li>
+          <li><a href="/books">Libros</a></li>
+          <li><a href="/">Ver Sitio</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2><%= genre ? 'Editar Género' : 'Nuevo Género' %></h2>
+
+      <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %>
+
+      <form
+        action="/api/genres<%= genre ? '/' + genre.id : '' %>"
+        method="POST"
+      >
+        <div class="form-group">
+          <label for="name">Nombre del Género:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= genre ? genre.name : '' %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Descripción:</label>
+          <textarea id="description" name="description" rows="4">
+<%= genre ? genre.description || '' : '' %></textarea
+          >
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <%= genre ? 'Actualizar' : 'Crear' %> Género
+          </button>
+          <a href="/genres" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Librería</p>
+    </footer>
+  </body>
+</html>

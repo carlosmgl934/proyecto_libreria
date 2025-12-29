@@ -1,10 +1,21 @@
 {
+  "name": "proyecto_libreria",
+  "version": "1.0.0",
+  "description": "Proyecto Librería Web y API",
+  "main": "web/app.mjs",
+  "scripts": {
+    "start": "node web/app.mjs",
+    "dev": "node --watch web/app.mjs"
+  },
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^5.2.1",
-    "firebase-admin": "^13.6.0",
-    "pg": "^8.16.3"
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
   }
 }

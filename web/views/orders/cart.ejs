@@ -1,0 +1,98 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Carrito de Compra</h1>
+
+  <% if (cart && cart.length > 0) { %>
+  <div class="cart-items">
+    <table class="cart-table">
+      <thead>
+        <tr>
+          <th>Libro</th>
+          <th>Precio</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let total = 0; %> <% cart.forEach((item, index) => { %> <% const
+        subtotal = item.price * item.quantity; %> <% total += subtotal; %>
+        <tr>
+          <td>
+            <div class="cart-book">
+              <% if (item.cover_url) { %>
+              <img
+                src="<%= item.cover_url %>"
+                alt="<%= item.title %>"
+                class="cart-cover"
+              />
+              <% } %>
+              <a href="/books/<%= item.id %>"><%= item.title %></a>
+            </div>
+          </td>
+          <td>$<%= parseFloat(item.price).toFixed(2) %></td>
+          <td>
+            <input
+              type="number"
+              value="<%= item.quantity %>"
+              min="1"
+              max="<%= item.stock %>"
+              data-item-id="<%= item.id %>"
+              class="quantity-input"
+            />
+          </td>
+          <td>$<%= subtotal.toFixed(2) %></td>
+          <td>
+            <button class="btn-remove" data-item-id="<%= item.id %>">
+              Eliminar
+            </button>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>TOTAL</strong></td>
+          <td colspan="2"><strong>$<%= total.toFixed(2) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="cart-actions">
+      <a href="/books" class="btn btn-secondary">Seguir Comprando</a>
+      <button class="btn btn-primary" id="checkout-btn">
+        Proceder al Pago
+      </button>
+    </div>
+  </div>
+  <% } else { %>
+  <div class="empty-cart">
+    <p>Tu carrito está vacío.</p>
+    <a href="/books" class="btn btn-primary">Ver Catálogo</a>
+  </div>
+  <% } %>
+</div>
+
+<script>
+  // Actualizar cantidad
+  document.querySelectorAll(".quantity-input").forEach((input) => {
+    input.addEventListener("change", (e) => {
+      const itemId = e.target.dataset.itemId;
+      const quantity = e.target.value;
+      // Llamada AJAX para actualizar carrito
+      console.log("Actualizar item", itemId, "a cantidad", quantity);
+    });
+  });
+
+  // Eliminar item
+  document.querySelectorAll(".btn-remove").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const itemId = e.target.dataset.itemId;
+      // Llamada AJAX para eliminar del carrito
+      console.log("Eliminar item", itemId);
+    });
+  });
+</script>
+
+<%- include('../layout/footer') %>

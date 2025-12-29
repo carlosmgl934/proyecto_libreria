@@ -1,0 +1,33 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Autores</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (user && user.rol === 'administrador') { %>
+  <div class="admin-actions">
+    <a href="/authors/admin/new" class="btn btn-primary">Añadir Nuevo Autor</a>
+  </div>
+  <% } %> <% if (authors && authors.length > 0) { %>
+  <div class="authors-grid">
+    <% authors.forEach(author => { %>
+    <div class="author-card">
+      <h3><a href="/authors/<%= author.id %>"><%= author.name %></a></h3>
+      <% if (author.nationality) { %>
+      <p class="nationality"><%= author.nationality %></p>
+      <% } %> <% if (author.biography) { %>
+      <p class="bio"><%= author.biography.substring(0, 150) %>...</p>
+      <% } %>
+      <a href="/authors/<%= author.id %>" class="btn btn-sm">Ver Libros</a>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="no-data">No hay autores registrados.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

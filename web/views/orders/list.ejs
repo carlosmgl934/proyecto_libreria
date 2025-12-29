@@ -1,0 +1,42 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Mis Pedidos</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (orders && orders.length > 0) { %>
+  <div class="orders-list">
+    <% orders.forEach(order => { %>
+    <div class="order-card">
+      <div class="order-header">
+        <h3>Pedido #<%= order.id %></h3>
+        <span class="order-date"
+          ><%= new Date(order.created_at).toLocaleDateString() %></span
+        >
+      </div>
+      <div class="order-body">
+        <p><strong>Items:</strong> <%= order.total_items %></p>
+        <p>
+          <strong>Total:</strong> $<%= parseFloat(order.total_amount).toFixed(2)
+          %>
+        </p>
+        <p><strong>Estado:</strong> <%= order.status || 'Pendiente' %></p>
+      </div>
+      <div class="order-actions">
+        <a href="/orders/my-orders/<%= order.id %>" class="btn btn-sm"
+          >Ver Detalle</a
+        >
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="no-data">Aún no has realizado ningún pedido.</p>
+  <a href="/books" class="btn btn-primary">Ver Catálogo</a>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

@@ -1,0 +1,76 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Detalle del Pedido #<%= order ? order.id : '' %></h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (order) { %>
+  <div class="order-detail">
+    <div class="order-info">
+      <p>
+        <strong>Fecha:</strong> <%= new
+        Date(order.created_at).toLocaleDateString() %>
+      </p>
+      <p><strong>Estado:</strong> <%= order.status || 'Pendiente' %></p>
+    </div>
+
+    <h2>Productos</h2>
+    <% if (orderItems && orderItems.length > 0) { %>
+    <table class="order-items-table">
+      <thead>
+        <tr>
+          <th>Libro</th>
+          <th>Cantidad</th>
+          <th>Precio Unit.</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let total = 0; %> <% orderItems.forEach(item => { %> <% const
+        subtotal = item.quantity * item.price; %> <% total += subtotal; %>
+        <tr>
+          <td>
+            <div class="item-book">
+              <% if (item.cover_url) { %>
+              <img
+                src="<%= item.cover_url %>"
+                alt="<%= item.title %>"
+                class="item-cover"
+              />
+              <% } %>
+              <a href="/books/<%= item.book_id %>"><%= item.title %></a>
+            </div>
+          </td>
+          <td><%= item.quantity %></td>
+          <td>$<%= parseFloat(item.price).toFixed(2) %></td>
+          <td>$<%= subtotal.toFixed(2) %></td>
+        </tr>
+        <% }) %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3"><strong>TOTAL</strong></td>
+          <td><strong>$<%= total.toFixed(2) %></strong></td>
+        </tr>
+      </tfoot>
+    </table>
+    <% } else { %>
+    <p>No hay items en este pedido.</p>
+    <% } %>
+
+    <div class="order-actions">
+      <a href="/orders/my-orders" class="btn btn-secondary"
+        >Volver a Mis Pedidos</a
+      >
+    </div>
+  </div>
+  <% } else { %>
+  <p>Pedido no encontrado.</p>
+  <a href="/orders/my-orders" class="btn btn-secondary">Volver a Mis Pedidos</a>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

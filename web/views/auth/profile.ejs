@@ -1,0 +1,47 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Mi Perfil</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (userDetails) { %>
+  <div class="profile-container">
+    <div class="profile-info">
+      <h2>Información Personal</h2>
+      <p><strong>Nombre:</strong> <%= userDetails.name %></p>
+      <p><strong>Email:</strong> <%= userDetails.email %></p>
+      <% if (userDetails.phone) { %>
+      <p><strong>Teléfono:</strong> <%= userDetails.phone %></p>
+      <% } %>
+      <p><strong>Rol:</strong> <%= userDetails.rol %></p>
+      <p>
+        <strong>Fecha de Registro:</strong> <%= new
+        Date(userDetails.created_at).toLocaleDateString() %>
+      </p>
+    </div>
+
+    <div class="profile-stats">
+      <h2>Estadísticas</h2>
+      <p>
+        <strong>Pedidos Realizados:</strong> <%= userDetails.total_orders || 0
+        %>
+      </p>
+      <p>
+        <strong>Reseñas Escritas:</strong> <%= userDetails.total_reviews || 0 %>
+      </p>
+    </div>
+
+    <div class="profile-actions">
+      <a href="/auth/profile/edit" class="btn btn-primary">Editar Perfil</a>
+      <a href="/orders/my-orders" class="btn btn-secondary">Ver Mis Pedidos</a>
+    </div>
+  </div>
+  <% } else { %>
+  <p>No se pudo cargar la información del perfil.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

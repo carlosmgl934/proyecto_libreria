@@ -1,0 +1,100 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (book) { %>
+  <div class="book-detail">
+    <div class="book-header">
+      <% if (book.cover_url) { %>
+      <img
+        src="<%= book.cover_url %>"
+        alt="<%= book.title %>"
+        class="book-cover-large"
+      />
+      <% } %>
+      <div class="book-main-info">
+        <h1><%= book.title %></h1>
+
+        <% if (authors && authors.length > 0) { %>
+        <p class="authors">
+          <strong>Autor(es):</strong>
+          <% authors.forEach((author, index) => { %>
+          <a href="/authors/<%= author.id %>"><%= author.name %></a><%= index <
+          authors.length - 1 ? ', ' : '' %> <% }) %>
+        </p>
+        <% } %> <% if (book.publisher_name) { %>
+        <p><strong>Editorial:</strong> <%= book.publisher_name %></p>
+        <% } %> <% if (genres && genres.length > 0) { %>
+        <p class="genres">
+          <strong>Género(s):</strong>
+          <% genres.forEach((genre, index) => { %>
+          <a href="/genres/<%= genre.id %>"><%= genre.name %></a><%= index <
+          genres.length - 1 ? ', ' : '' %> <% }) %>
+        </p>
+        <% } %> <% if (book.isbn) { %>
+        <p><strong>ISBN:</strong> <%= book.isbn %></p>
+        <% } %> <% if (book.releashed_year) { %>
+        <p><strong>Año:</strong> <%= book.releashed_year %></p>
+        <% } %> <% if (book.pages) { %>
+        <p><strong>Páginas:</strong> <%= book.pages %></p>
+        <% } %> <% if (book.language) { %>
+        <p><strong>Idioma:</strong> <%= book.language %></p>
+        <% } %> <% if (book.format) { %>
+        <p><strong>Formato:</strong> <%= book.format %></p>
+        <% } %>
+
+        <div class="price-section">
+          <% if (book.price) { %>
+          <p class="price">$<%= parseFloat(book.price).toFixed(2) %></p>
+          <% } %> <% if (book.stock > 0) { %>
+          <p class="stock available">Disponible (<%= book.stock %> en stock)</p>
+          <button class="btn btn-primary">Añadir al Carrito</button>
+          <% } else { %>
+          <p class="stock unavailable">Agotado</p>
+          <% } %>
+        </div>
+
+        <% if (user && user.rol === 'administrador') { %>
+        <div class="admin-actions">
+          <a href="/books/admin/edit/<%= book.id %>" class="btn btn-secondary"
+            >Editar Libro</a
+          >
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <% if (book.synopsis) { %>
+    <div class="synopsis">
+      <h2>Sinopsis</h2>
+      <p><%= book.synopsis %></p>
+    </div>
+    <% } %> <% if (reviews && reviews.length > 0) { %>
+    <div class="reviews">
+      <h2>Reseñas</h2>
+      <% reviews.forEach(review => { %>
+      <div class="review">
+        <div class="review-header">
+          <strong><%= review.user_name %></strong>
+          <span class="rating">★ <%= review.rating %>/5</span>
+          <span class="date"
+            ><%= new Date(review.created_at).toLocaleDateString() %></span
+          >
+        </div>
+        <p><%= review.comment %></p>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p class="no-reviews">Este libro aún no tiene reseñas.</p>
+    <% } %>
+  </div>
+  <% } else { %>
+  <p>Libro no encontrado.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

@@ -1,0 +1,54 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (genre) { %>
+  <div class="genre-detail">
+    <h1><%= genre.name %></h1>
+
+    <% if (genre.description) { %>
+    <p class="description"><%= genre.description %></p>
+    <% } %> <% if (user && user.rol === 'administrador') { %>
+    <div class="admin-actions">
+      <a href="/genres/admin/edit/<%= genre.id %>" class="btn btn-secondary"
+        >Editar Género</a
+      >
+    </div>
+    <% } %>
+
+    <h2>Libros del género <%= genre.name %></h2>
+    <% if (books && books.length > 0) { %>
+    <div class="books-grid">
+      <% books.forEach(book => { %>
+      <div class="book-card">
+        <% if (book.cover_url) { %>
+        <img
+          src="<%= book.cover_url %>"
+          alt="<%= book.title %>"
+          class="book-cover"
+        />
+        <% } %>
+        <div class="book-info">
+          <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
+          <% if (book.publisher_name) { %>
+          <p class="publisher"><%= book.publisher_name %></p>
+          <% } %> <% if (book.price) { %>
+          <p class="price">$<%= parseFloat(book.price).toFixed(2) %></p>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p>No hay libros en este género.</p>
+    <% } %>
+  </div>
+  <% } else { %>
+  <p>Género no encontrado.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

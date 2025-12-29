@@ -1,0 +1,61 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (publisher) { %>
+  <div class="publisher-detail">
+    <h1><%= publisher.name %></h1>
+
+    <% if (publisher.country) { %>
+    <p><strong>País:</strong> <%= publisher.country %></p>
+    <% } %> <% if (publisher.website) { %>
+    <p>
+      <strong>Sitio Web:</strong>
+      <a href="<%= publisher.website %>" target="_blank"
+        ><%= publisher.website %></a
+      >
+    </p>
+    <% } %> <% if (user && user.rol === 'administrador') { %>
+    <div class="admin-actions">
+      <a
+        href="/publishers/admin/edit/<%= publisher.id %>"
+        class="btn btn-secondary"
+        >Editar Editorial</a
+      >
+    </div>
+    <% } %>
+
+    <h2>Libros de <%= publisher.name %></h2>
+    <% if (books && books.length > 0) { %>
+    <div class="books-grid">
+      <% books.forEach(book => { %>
+      <div class="book-card">
+        <% if (book.cover_url) { %>
+        <img
+          src="<%= book.cover_url %>"
+          alt="<%= book.title %>"
+          class="book-cover"
+        />
+        <% } %>
+        <div class="book-info">
+          <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
+          <% if (book.price) { %>
+          <p class="price">$<%= parseFloat(book.price).toFixed(2) %></p>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p>Esta editorial aún no tiene libros registrados.</p>
+    <% } %>
+  </div>
+  <% } else { %>
+  <p>Editorial no encontrada.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

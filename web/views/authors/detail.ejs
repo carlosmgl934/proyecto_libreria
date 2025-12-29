@@ -1,0 +1,66 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (author) { %>
+  <div class="author-detail">
+    <h1><%= author.name %></h1>
+
+    <div class="author-info">
+      <% if (author.nationality) { %>
+      <p><strong>Nacionalidad:</strong> <%= author.nationality %></p>
+      <% } %> <% if (author.birth_date) { %>
+      <p>
+        <strong>Fecha de Nacimiento:</strong> <%= new
+        Date(author.birth_date).toLocaleDateString() %>
+      </p>
+      <% } %>
+    </div>
+
+    <% if (author.biography) { %>
+    <div class="biography">
+      <h3>Biografía</h3>
+      <p><%= author.biography %></p>
+    </div>
+    <% } %> <% if (user && user.rol === 'administrador') { %>
+    <div class="admin-actions">
+      <a href="/authors/admin/edit/<%= author.id %>" class="btn btn-secondary"
+        >Editar Autor</a
+      >
+    </div>
+    <% } %>
+
+    <h2>Libros de <%= author.name %></h2>
+    <% if (books && books.length > 0) { %>
+    <div class="books-list">
+      <% books.forEach(book => { %>
+      <div class="book-item">
+        <% if (book.cover_url) { %>
+        <img
+          src="<%= book.cover_url %>"
+          alt="<%= book.title %>"
+          class="book-cover"
+        />
+        <% } %>
+        <div class="book-info">
+          <h4><a href="/books/<%= book.id %>"><%= book.title %></a></h4>
+          <% if (book.price) { %>
+          <p class="price">$<%= parseFloat(book.price).toFixed(2) %></p>
+          <% } %>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p>Este autor aún no tiene libros registrados.</p>
+    <% } %>
+  </div>
+  <% } else { %>
+  <p>Autor no encontrado.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

@@ -1,77 +1,102 @@
-// ----------------------------------------------------
-// 1. IMPORTACIONES Y CONFIGURACIÓN INICIAL
-// ----------------------------------------------------
-const express = require('express');
-const path = require('path');
-const { Pool } = require('pg');
-const dotenv = require('dotenv');
-const session = require('express-session');
+// ****************************************************
+// PASO 1: IMPORTACIONES Y CONFIGURACIÓN INICIAL
+// ****************************************************
+import express from "express";
+import path from "path";
+import pg from "pg";
+import dotenv from "dotenv";
+import session from "express-session";
+import { fileURLToPath } from "url";
+
+// Rutas de la web
+import webRoutes from "./routes/webRoutes.js";
+import authorRoutes from "./routes/authorRoutes.js";
+import bookRoutes from "./routes/bookRoutes.js";
+import genreRoutes from "./routes/genreRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
+import publisherRoutes from "./routes/publisherRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 // Cargar variables de entorno
 dotenv.config();
 
-// ----------------------------------------------------
-// 2. DEFINICIÓN DEL SERVIDOR Y PUERTO
-// ----------------------------------------------------
+// Configurar __dirname para ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const { Pool } = pg;
+
+// ****************************************************
+// PASO 2: CONFIGURACIÓN DEL SERVIDOR Y BASE DE DATOS
+// ****************************************************
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-// ----------------------------------------------------
-// 3. CONFIGURACIÓN DE LA CONEXIÓN A LA BASE DE DATOS
-// ----------------------------------------------------
+// Configuración de la conexión a la Base de Datos (Supabase)
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: { rejectUnauthorized: false }, // Supabase requiere SSL activado
 });
 
-pool.connect()
-  .then(client => {
-    console.log('Conexión exitosa a la base de datos');
+// Probar conexión
+pool
+  .connect()
+  .then((client) => {
+    console.log("Conexión exitosa a la base de datos");
     client.release();
   })
-  .catch(err => console.error('Error de conexión con la base de datos: ', err.stack));
+  .catch((err) =>
+    console.error("Error de conexión con la base de datos:", err.stack)
+  );
 
-// Exponer el pool a toda la aplicación
+// Compartir la pool con toda la aplicación
 app.locals.db = pool;
 
-// ----------------------------------------------------
-// 4. MIDDLEWARES
-// ----------------------------------------------------
+// ****************************************************
+// PASO 3: MIDDLEWARES (Procesamiento de datos)
+// ****************************************************
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'CLAVE_SECRETA_SUPER_LARGA_Y_COMPLEJA',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // Cambiar a true si usas HTTPS en producción
-}));
+// Configuración de Sesiones
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "CLAVE_SECRETA",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-// Motor de vistas EJS
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'servidor', 'views'));
+// ****************************************************
+// PASO 4: MOTOR DE VISTAS Y ARCHIVOS ESTÁTICOS
+// ****************************************************
+app.set("view engine", "ejs");
+// Apuntamos a la carpeta 'views' dentro de 'web'
+app.set("views", path.join(__dirname, "views"));
+// Apuntamos a la carpeta 'public' para CSS e imágenes
+app.use(express.static(path.join(__dirname, "public")));
 
-// Archivos estáticos
-app.use(express.static(path.join(__dirname, 'servidor', 'public')));
+// ****************************************************
+// PASO 5: DEFINICIÓN DE RUTAS
+// ****************************************************
 
-// ----------------------------------------------------
-// 5. RUTAS
-// ----------------------------------------------------
-const webRoutes = require('./routes/webRoutes');
-const apiRoutes = require('../api/routes/apiRoutes');
-const libroRoutes = require('./routes/libro_routes'); // Asegúrate que sea .js si usas CommonJS
+// Rutas Generales
+app.use("/", webRoutes);
 
-app.use('/', webRoutes);
-app.use('/', apiRoutes);
-app.use('/', libroRoutes);
+// Rutas Específicas
+app.use("/authors", authorRoutes); // Autores
+app.use("/books", bookRoutes); // Libros
+app.use("/genres", genreRoutes); // Géneros
+app.use("/orders", orderRoutes); // Pedidos
+app.use("/publishers", publisherRoutes); // Editoriales
+app.use("/auth", authRoutes); // Autenticación (Login/Registro)
 
-// ----------------------------------------------------
-// 6. INICIAR SERVIDOR
-// ----------------------------------------------------
+// ****************************************************
+// PASO 6: INICIAR EL SERVIDOR
+// ****************************************************
 app.listen(PORT, () => {
   console.log(`Servidor Express listo en http://localhost:${PORT}`);
 });

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Panel de Administración</h1>
+      <nav>
+        <ul>
+          <li><a href="/admin">Dashboard</a></li>
+          <li><a href="/authors">Autores</a></li>
+          <li><a href="/genres">Géneros</a></li>
+          <li><a href="/publishers">Editoriales</a></li>
+          <li><a href="/books">Libros</a></li>
+          <li><a href="/">Ver Sitio</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2><%= publisher ? 'Editar Editorial' : 'Nueva Editorial' %></h2>
+
+      <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %>
+
+      <form
+        action="/api/publishers<%= publisher ? '/' + publisher.id : '' %>"
+        method="POST"
+      >
+        <div class="form-group">
+          <label for="name">Nombre de la Editorial:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= publisher ? publisher.name : '' %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="country">País:</label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            value="<%= publisher ? publisher.country || '' : '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="website">Sitio Web:</label>
+          <input
+            type="url"
+            id="website"
+            name="website"
+            value="<%= publisher ? publisher.website || '' : '' %>"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <%= publisher ? 'Actualizar' : 'Crear' %> Editorial
+          </button>
+          <a href="/publishers" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Librería</p>
+    </footer>
+  </body>
+</html>

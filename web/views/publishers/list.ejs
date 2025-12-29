@@ -1,0 +1,37 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Editoriales</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (user && user.rol === 'administrador') { %>
+  <div class="admin-actions">
+    <a href="/publishers/admin/new" class="btn btn-primary"
+      >Añadir Nueva Editorial</a
+    >
+  </div>
+  <% } %> <% if (publishers && publishers.length > 0) { %>
+  <div class="publishers-grid">
+    <% publishers.forEach(publisher => { %>
+    <div class="publisher-card">
+      <h3>
+        <a href="/publishers/<%= publisher.id %>"><%= publisher.name %></a>
+      </h3>
+      <% if (publisher.country) { %>
+      <p class="country"><%= publisher.country %></p>
+      <% } %>
+      <a href="/publishers/<%= publisher.id %>" class="btn btn-sm"
+        >Ver Libros</a
+      >
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="no-data">No hay editoriales registradas.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

@@ -1,0 +1,44 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Catálogo de Libros</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (user && user.rol === 'administrador') { %>
+  <div class="admin-actions">
+    <a href="/books/admin/new" class="btn btn-primary">Añadir Nuevo Libro</a>
+  </div>
+  <% } %> <% if (books && books.length > 0) { %>
+  <div class="books-grid">
+    <% books.forEach(book => { %>
+    <div class="book-card">
+      <% if (book.cover_url) { %>
+      <img
+        src="<%= book.cover_url %>"
+        alt="<%= book.title %>"
+        class="book-cover"
+      />
+      <% } %>
+      <div class="book-info">
+        <h3><a href="/books/<%= book.id %>"><%= book.title %></a></h3>
+        <% if (book.publisher_name) { %>
+        <p class="publisher"><%= book.publisher_name %></p>
+        <% } %> <% if (book.price) { %>
+        <p class="price">$<%= parseFloat(book.price).toFixed(2) %></p>
+        <% } %> <% if (book.stock) { %>
+        <p class="stock">Stock: <%= book.stock %> unidades</p>
+        <% } %>
+        <a href="/books/<%= book.id %>" class="btn btn-sm">Ver Detalles</a>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="no-data">No hay libros disponibles en este momento.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

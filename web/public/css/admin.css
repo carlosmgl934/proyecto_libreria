@@ -1,0 +1,207 @@
+header {
+  background: #34495e;
+  color: white;
+  padding: 15px 0;
+  margin-bottom: 30px;
+}
+
+header h1 {
+  margin: 0;
+  padding: 0 20px;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0 20px;
+  margin: 10px 0 0 0;
+  display: flex;
+  gap: 20px;
+}
+
+header nav a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+header nav a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+main {
+  padding: 0 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+main h2 {
+  color: var(--color-dark);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 10px;
+}
+
+section {
+  background: white;
+  padding: 25px;
+  margin-bottom: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.orders-table,
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.orders-table th,
+.orders-table td,
+.cart-table th,
+.cart-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.orders-table th,
+.cart-table th {
+  background-color: var(--color-dark);
+  color: white;
+  font-weight: bold;
+}
+
+.orders-table tr:hover,
+.cart-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.order-card,
+.orders-list .order-card {
+  background: white;
+  padding: 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--color-primary);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.order-header h3 {
+  margin: 0;
+  color: var(--color-primary);
+}
+
+.order-date {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.order-body {
+  margin: 15px 0;
+}
+
+.order-body p {
+  margin: 8px 0;
+}
+
+.order-actions {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.order-items-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.order-items-table th {
+  background: var(--color-dark);
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+.order-items-table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.order-items-table tfoot td {
+  font-weight: bold;
+  background: #f8f9fa;
+  border-top: 2px solid var(--color-dark);
+}
+
+.item-book,
+.cart-book {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.cart-cover {
+  width: 60px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.quantity-input {
+  width: 70px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-remove {
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-remove:hover {
+  background: #c0392b;
+}
+
+.cart-actions,
+.order-detail .order-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.empty-cart p {
+  font-size: 18px;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+footer {
+  background: var(--color-dark);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+}

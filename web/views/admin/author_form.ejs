@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Panel de Administración</h1>
+      <nav>
+        <ul>
+          <li><a href="/admin">Dashboard</a></li>
+          <li><a href="/authors">Autores</a></li>
+          <li><a href="/genres">Géneros</a></li>
+          <li><a href="/publishers">Editoriales</a></li>
+          <li><a href="/books">Libros</a></li>
+          <li><a href="/">Ver Sitio</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2><%= author ? 'Editar Autor' : 'Nuevo Autor' %></h2>
+
+      <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %>
+
+      <form
+        action="/api/authors<%= author ? '/' + author.id : '' %>"
+        method="POST"
+      >
+        <div class="form-group">
+          <label for="name">Nombre del Autor:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="<%= author ? author.name : '' %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="biography">Biografía:</label>
+          <textarea id="biography" name="biography" rows="5">
+<%= author ? author.biography || '' : '' %></textarea
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="birth_date">Fecha de Nacimiento:</label>
+          <input
+            type="date"
+            id="birth_date"
+            name="birth_date"
+            value="<%= author ? author.birth_date || '' : '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="nationality">Nacionalidad:</label>
+          <input
+            type="text"
+            id="nationality"
+            name="nationality"
+            value="<%= author ? author.nationality || '' : '' %>"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <%= author ? 'Actualizar' : 'Crear' %> Autor
+          </button>
+          <a href="/authors" class="btn btn-secondary">Cancelar</a>
+        </div>
+      </form>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Librería</p>
+    </footer>
+  </body>
+</html>

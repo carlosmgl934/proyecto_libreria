@@ -1,0 +1,31 @@
+<%- include('../layout/header') %>
+
+<div class="container">
+  <h1>Géneros Literarios</h1>
+
+  <% if (error) { %>
+  <div class="error-message">
+    <p><%= error %></p>
+  </div>
+  <% } %> <% if (user && user.rol === 'administrador') { %>
+  <div class="admin-actions">
+    <a href="/genres/admin/new" class="btn btn-primary">Añadir Nuevo Género</a>
+  </div>
+  <% } %> <% if (genres && genres.length > 0) { %>
+  <div class="genres-grid">
+    <% genres.forEach(genre => { %>
+    <div class="genre-card">
+      <h3><a href="/genres/<%= genre.id %>"><%= genre.name %></a></h3>
+      <% if (genre.description) { %>
+      <p><%= genre.description.substring(0, 100) %>...</p>
+      <% } %>
+      <a href="/genres/<%= genre.id %>" class="btn btn-sm">Ver Libros</a>
+    </div>
+    <% }) %>
+  </div>
+  <% } else { %>
+  <p class="no-data">No hay géneros registrados.</p>
+  <% } %>
+</div>
+
+<%- include('../layout/footer') %>

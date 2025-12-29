@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/css/main.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Panel de Administración - Pedidos</h1>
+      <nav>
+        <ul>
+          <li><a href="/admin">Dashboard</a></li>
+          <li><a href="/authors">Autores</a></li>
+          <li><a href="/genres">Géneros</a></li>
+          <li><a href="/publishers">Editoriales</a></li>
+          <li><a href="/books">Libros</a></li>
+          <li><a href="/">Ver Sitio</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <h2>Gestión de Pedidos</h2>
+
+      <% if (error) { %>
+      <div class="error-message">
+        <p><%= error %></p>
+      </div>
+      <% } %> <% if (orders && orders.length > 0) { %>
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>ID Pedido</th>
+            <th>Usuario</th>
+            <th>Email</th>
+            <th>Fecha</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orders.forEach(order => { %>
+          <tr>
+            <td><%= order.id %></td>
+            <td><%= order.user_name %></td>
+            <td><%= order.user_email %></td>
+            <td><%= new Date(order.created_at).toLocaleDateString() %></td>
+            <td><%= order.total_items %></td>
+            <td>$<%= parseFloat(order.total_amount).toFixed(2) %></td>
+            <td><%= order.status || 'Pendiente' %></td>
+            <td>
+              <a href="/orders/my-orders/<%= order.id %>" class="btn btn-sm"
+                >Ver Detalle</a
+              >
+            </td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% } else { %>
+      <p class="no-data">No hay pedidos registrados.</p>
+      <% } %>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Librería</p>
+    </footer>
+  </body>
+</html>

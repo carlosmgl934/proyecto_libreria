@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+
+<main class="container">
+  <div class="admin-dashboard">
+    <h1>Panel de Administración</h1>
+    <p class="mb-4">
+      Bienvenido, <%= user.name %>. Desde aquí puedes gestionar el contenido de
+      la librería.
+    </p>
+
+    <div class="grid-3">
+      <!-- Gestión de Libros -->
+      <div class="card">
+        <div class="card-body">
+          <h3>📚 Libros</h3>
+          <p>Gestiona el inventario de libros.</p>
+          <div class="btn-group">
+            <a href="/books/admin/new" class="btn btn-primary">Nuevo Libro</a>
+            <a href="/books" class="btn btn-secondary">Ver Catálogo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Autores -->
+      <div class="card">
+        <div class="card-body">
+          <h3>✍️ Autores</h3>
+          <p>Administra los autores registrados.</p>
+          <div class="btn-group">
+            <a href="/authors/admin/new" class="btn btn-primary">Nuevo Autor</a>
+            <a href="/authors" class="btn btn-secondary">Ver Lista</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Géneros -->
+      <div class="card">
+        <div class="card-body">
+          <h3>🏷️ Géneros</h3>
+          <p>Crea y edita categorías literarias.</p>
+          <div class="btn-group">
+            <a href="/genres/admin/new" class="btn btn-primary">Nuevo Género</a>
+            <a href="/genres" class="btn btn-secondary">Ver Géneros</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Editoriales -->
+      <div class="card">
+        <div class="card-body">
+          <h3>🏢 Editoriales</h3>
+          <p>Controla las editoriales disponibles.</p>
+          <div class="btn-group">
+            <a href="/publishers/admin/new" class="btn btn-primary"
+              >Nueva Editorial</a
+            >
+            <a href="/publishers" class="btn btn-secondary">Ver Editoriales</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Pedidos (Admin) -->
+      <div class="card">
+        <div class="card-body">
+          <h3>📦 Pedidos</h3>
+          <p>Revisa todos los pedidos de los clientes.</p>
+          <div class="btn-group">
+            <a href="/orders/admin/all" class="btn btn-primary"
+              >Ver Todos los Pedidos</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
